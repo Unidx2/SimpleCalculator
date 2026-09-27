@@ -3,6 +3,32 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+    static void calculation(char b, double firstNumber, double secondNumber){
+        double sum, mul, sub, div;
+
+        switch (b) {
+            case '+':
+                sum = firstNumber + secondNumber;
+                System.out.println(sum);
+                break;
+            case '-':
+                sub = firstNumber - secondNumber;
+                System.out.println(sub);
+                break;
+            case '*':
+                mul = firstNumber * secondNumber;
+                System.out.println(mul);
+                break;
+            case '/':
+                div = firstNumber / secondNumber;
+                System.out.println(div);
+                break;
+            default:
+                System.out.println("Something is wrong with your equation");
+        }
+    }
+
+
     public static void main(String[] args) {
         String padding = "###############################################";
         String message = "Welcome to my SimpleCalculator (On Java)";
@@ -19,34 +45,16 @@ public class Main {
                 }
 
                 try {
-                    int firstNumber = Integer.parseInt(firstInput);
+                    double firstNumber = Double.parseDouble(firstInput);
                     char b = sc.next().charAt(0);
-                    double secondNumber = sc.nextInt();
-                    double sum, mul, sub, div;
-
-                    switch (b) {
-                        case '+':
-                            sum = firstNumber + secondNumber;
-                            System.out.println(sum);
-                            break;
-                        case '-':
-                            sub = firstNumber - secondNumber;
-                            System.out.println(sub);
-                            break;
-                        case '*':
-                            mul = firstNumber * secondNumber;
-                            System.out.println(mul);
-                            break;
-                        case '/':
-                            div = firstNumber / secondNumber;
-                            System.out.printf("%1$f", div);
-                            break;
-                        default:
-                            System.out.println("Something is wrong with your equation");
-                    }
+                    double secondNumber = sc.nextDouble();
+                    calculation(b,firstNumber,secondNumber);
+                    System.out.println("Enter the equation you want to solve:");
 
                 } catch (Exception e) {
-                    throw new InputMismatchException("Input error, please enter a valid number");
+                    System.out.println("Please recheck your values, make sure it is a number");
+                    System.out.println("Enter the equation you want to solve:");
+                    sc.nextLine(); //To clear the input
                 }
             }
         }
