@@ -1,60 +1,70 @@
-import java.lang.Math;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    static void calculation(char b, double firstNumber, double secondNumber){
-        double sum, mul, sub, div;
+    static boolean calculation(Scanner sc){
+        String readLine = sc.nextLine();
 
-        switch (b) {
-            case '+':
-                sum = firstNumber + secondNumber;
-                System.out.println(sum);
-                break;
-            case '-':
-                sub = firstNumber - secondNumber;
-                System.out.println(sub);
-                break;
-            case '*':
-                mul = firstNumber * secondNumber;
-                System.out.println(mul);
-                break;
-            case '/':
-                div = firstNumber / secondNumber;
-                System.out.println(div);
-                break;
-            default:
-                System.out.println("Something is wrong with your equation");
+        if(readLine.isEmpty()){
+            return true;
         }
+        if (readLine.equalsIgnoreCase("done")){
+            System.out.println("Thank you for using the calculator");
+            return false;
+        }
+
+
+        Scanner lineScanner = new Scanner(readLine);
+        try{
+            double calc = Double.parseDouble(lineScanner.next());
+
+            while(lineScanner.hasNext()) {
+                String symbol = lineScanner.next();
+
+                switch (symbol.charAt(0)) {
+                    case '+':
+                        calc += lineScanner.nextDouble();
+                        break;
+                    case '-':
+                        calc -= lineScanner.nextDouble();
+                        break;
+                    case '*':
+                        calc *= lineScanner.nextDouble();
+                        break;
+                    case '/':
+                        calc /= lineScanner.nextDouble();
+                        break;
+                    default:
+                        System.out.println("Something is wrong with your equation");
+                        return true;
+                }
+            }
+
+            System.out.println("Result: " + calc);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println();
+        return true;
     }
 
 
     public static void main(String[] args) {
         String padding = "###############################################";
         String message = "Welcome to my SimpleCalculator (On Java)";
-        System.out.printf("%1$s %n%2$43s %n%1$s %n%n%nEnter the equation you want to solve:", padding, message);
+        System.out.printf("%1$s %n%2$43s %n%1$s %n", padding, message);
 
-        try (Scanner sc = new Scanner(System.in)) {
+        try (Scanner sc = new Scanner(System.in)){
+            boolean keepRunning = true;
 
-            while (sc.hasNext()) {
-                String firstInput = sc.next();
-
-                if (firstInput.equalsIgnoreCase("done")) {
-                    System.out.println("Thank you for using the calculator");
-                    break;
-                }
+            while(keepRunning){
+                System.out.println("Enter equation you want to solve (Or write \"done\" to close the program):");
 
                 try {
-                    double firstNumber = Double.parseDouble(firstInput);
-                    char b = sc.next().charAt(0);
-                    double secondNumber = sc.nextDouble();
-                    calculation(b,firstNumber,secondNumber);
-                    System.out.println("Enter the equation you want to solve:");
-
-                } catch (Exception e) {
+                    keepRunning = calculation(sc);
+                }catch (Exception e){
                     System.out.println("Please recheck your values, make sure it is a number");
-                    System.out.println("Enter the equation you want to solve:");
-                    sc.nextLine(); //To clear the input
                 }
             }
         }
